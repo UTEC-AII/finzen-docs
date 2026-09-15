@@ -24,6 +24,16 @@
 \usepackage{caption}
 \usepackage{amsmath}
 \usepackage{microtype}
+\usepackage{titlesec}
+% Encabezados de tamaño moderado y uniforme
+\titleformat{\part}{\normalfont\Large\bfseries\centering}{}{0pt}{}
+\titlespacing*{\part}{0pt}{0pt}{0.6\baselineskip}
+\titleformat{\section}{\normalfont\large\bfseries}{\thesection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{1.1\baselineskip}{0.4\baselineskip}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection.}{0.5em}{}
+\titlespacing*{\subsection}{0pt}{0.95\baselineskip}{0.3\baselineskip}
+\titleformat{\subsubsection}{\normalfont\normalsize\itshape}{\thesubsubsection.}{0.5em}{}
+\titlespacing*{\subsubsection}{0pt}{0.8\baselineskip}{0.25\baselineskip}
 
 \geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
 \setlength{\parskip}{6pt}
