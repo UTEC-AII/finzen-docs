@@ -1,0 +1,15 @@
+# LaTeX (auxiliares de compilación)
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+
+# Sistema
+.DS_Store
