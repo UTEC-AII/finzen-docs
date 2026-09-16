@@ -131,7 +131,30 @@ Ronald Ramiro Hilario Orihuela
 
 \end{titlepage}
 
-\tableofcontents
+{\small
+\tableofcontents}
+\newpage
+
+% ===================== ANEXOS (enlaces) =====================
+\section*{Anexos}
+\addcontentsline{toc}{section}{Anexos}
+Los recursos complementarios del proyecto se encuentran en el repositorio de
+documentaci\'on \href{https://github.com/UTEC-AII/finzen-docs}{finzen-docs}:
+\begin{itemize}[leftmargin=1.2cm]
+  \item \textbf{Anexo A} --- Prompt del prototipo:
+        \href{https://github.com/UTEC-AII/finzen-docs/blob/main/frontend-prompt/prompt.md}{frontend-prompt/prompt.md}.
+  \item \textbf{Anexo B} --- Colecci\'on Postman y entornos:
+        \href{https://github.com/UTEC-AII/finzen-docs/tree/main/postman}{postman/}.
+  \item \textbf{Anexo C} --- Cat\'alogo completo de APIs:
+        \href{https://github.com/UTEC-AII/finzen-docs/blob/main/CATALOGO_DE_APIS.md}{CATALOGO\_DE\_APIS.md}.
+  \item \textbf{Anexo D} --- Repositorios de c\'odigo:
+        \href{https://github.com/UTEC-AII/finzen-app}{finzen-app},
+        \href{https://github.com/UTEC-AII/finzen-webui}{finzen-webui} y
+        \href{https://github.com/UTEC-AII/finzen-docs}{finzen-docs}.
+  \item \textbf{Anexo E} --- Aplicaci\'on desplegada:
+        \href{http://54.198.140.159}{http://54.198.140.159}.
+\end{itemize}
+
 \newpage
 
 % ===================== INTRODUCCIÓN =====================
@@ -793,8 +816,8 @@ estas dos formas:
 Si no se configura, el \texttt{ai-service} funciona en \textbf{modo local} (embeddings
 deterministas) para poder probar sin conexi\'on.
 
-\evidencia{Creaci\'on de una clave de API en el panel de OpenAI (\texttt{platform.openai.com/api-keys}).}{capturas_openai/openai_01_api_keys.png}
-\evidencia{Configuraci\'on de \texttt{OPENAI\_API\_KEY} en el archivo \texttt{.env} del backend.}{capturas_openai/openai_02_env.png}
+\evidencia{Panel de OpenAI (\texttt{platform.openai.com/api-keys}): creaci\'on de una nueva clave secreta de API.}{capturas_openai/openai_01_api_keys.png}
+\evidencia{Archivo \texttt{.env} del backend en la EC2, con \texttt{OPENAI\_API\_KEY}, \texttt{SECRET\_KEY} y \texttt{ALLOWED\_ORIGINS} configurados.}{capturas_openai/openai_02_env.png}
 
 \section{Evidencia de uso con Postman}
 La colecci\'on importable, junto con los entornos Local y AWS y la gu\'ia de
@@ -805,25 +828,25 @@ continuaci\'on se presentan las capturas de las peticiones ejecutadas con
 inicio de sesi\'on, registro de ingresos y gastos, filtrado, las tres consultas al
 asistente y la reindexaci\'on), con sus c\'odigos de estado reales.
 
-\evidencia{Registro de usuario (\texttt{POST /api/users/users}, 201 Created).}{capturas_postman/01_registrar_usuario.png}
-\evidencia{Login (\texttt{POST /api/users/auth/login}, 200 OK) devolviendo el \texttt{access\_token}.}{capturas_postman/02_login.png}
-\evidencia{Registrar ingreso (\texttt{POST /api/incomes/incomes}, 201).}{capturas_postman/03_registrar_ingreso.png}
-\evidencia{Registrar gasto en PEN (\texttt{POST /api/expenses/expenses}, 201).}{capturas_postman/04_registrar_gasto_pen_.png}
-\evidencia{Registrar gasto en USD (201).}{capturas_postman/05_registrar_gasto_usd_.png}
-\evidencia{Listar gastos con filtro por categor\'ia (\texttt{GET /api/expenses/expenses/\{user\_id\}?category=Alimentacion}, 200).}{capturas_postman/06_listar_gastos_filtro_.png}
-\evidencia{Consulta IA 1: ``¿en qu\'e categor\'ia gasto m\'as?'' (\texttt{POST /api/ai/query}, 200).}{capturas_postman/07_consulta_ia_1.png}
-\evidencia{Consulta IA 2: ``¿cu\'anto he gastado este mes?'' (200).}{capturas_postman/08_consulta_ia_2.png}
-\evidencia{Consulta IA 3: ``¿cu\'anto he recibido de ingresos?'' (200).}{capturas_postman/09_consulta_ia_3.png}
-\evidencia{Re-indexar movimientos (\texttt{POST /api/ai/reindex}, 200).}{capturas_postman/10_re_indexar_movimientos.png}
+\evidencia{Petici\'on de registro: \texttt{POST /api/users/users} con el cuerpo JSON y respuesta \texttt{201 Created} con el usuario creado.}{capturas_postman/01_registrar_usuario.png}
+\evidencia{Petici\'on de login: \texttt{POST /api/users/auth/login} que devuelve \texttt{200 OK} con el \texttt{access\_token} (JWT).}{capturas_postman/02_login.png}
+\evidencia{Registro de un ingreso: \texttt{POST /api/incomes/incomes} con respuesta \texttt{201 Created}.}{capturas_postman/03_registrar_ingreso.png}
+\evidencia{Registro de un gasto en soles (PEN): \texttt{POST /api/expenses/expenses} con respuesta \texttt{201 Created}.}{capturas_postman/04_registrar_gasto_pen_.png}
+\evidencia{Registro de un gasto en d\'olares (USD): misma ruta, respuesta \texttt{201 Created}.}{capturas_postman/05_registrar_gasto_usd_.png}
+\evidencia{Listado de gastos filtrado por categor\'ia: \texttt{GET /api/expenses/expenses/\{user\_id\}?category=Alimentacion} con respuesta \texttt{200 OK}.}{capturas_postman/06_listar_gastos_filtro_.png}
+\evidencia{Consulta al asistente 1: ``¿en qu\'e categor\'ia gasto m\'as?'' (\texttt{POST /api/ai/query}) con respuesta en lenguaje natural.}{capturas_postman/07_consulta_ia_1.png}
+\evidencia{Consulta al asistente 2: ``¿cu\'anto he gastado este mes?'' con la suma de los gastos por moneda.}{capturas_postman/08_consulta_ia_2.png}
+\evidencia{Consulta al asistente 3: ``¿cu\'anto he recibido de ingresos?'' con el total de ingresos.}{capturas_postman/09_consulta_ia_3.png}
+\evidencia{Re-indexaci\'on de movimientos: \texttt{POST /api/ai/reindex} regenera los vectores con el modelo de \emph{embeddings}.}{capturas_postman/10_re_indexar_movimientos.png}
 
 \section{FrontEnd conectado (BFF + JWT)}
 El frontend Next.js consume las APIs a trav\'es de un \textbf{BFF}: el JWT se guarda
 en una cookie \texttt{httpOnly} y el servidor de Next lo inyecta al reenviar la
 petici\'on a Nginx.
 
-\evidencia{Dashboard: balance por moneda, gr\'afico de gastos por categor\'ia y accesos directos.}{capturas_frontend/01_dashboard.png}
-\evidencia{Listado de gastos con filtros por categor\'ia y rango de fechas.}{capturas_frontend/02_gastos.png}
-\evidencia{Asistente de IA respondiendo una consulta en lenguaje natural.}{capturas_frontend/03_asistente.png}
+\evidencia{\emph{Dashboard}: balance por moneda, gr\'afico de gastos por categor\'ia, detalle por categor\'ia y \'ultimos movimientos.}{capturas_frontend/01_dashboard.png}
+\evidencia{Listado de gastos con filtros por categor\'ia y rango de fechas, y acci\'on de eliminar.}{capturas_frontend/02_gastos.png}
+\evidencia{Asistente de IA respondiendo una consulta en lenguaje natural sobre las finanzas del usuario.}{capturas_frontend/03_asistente.png}
 
 \section{Despliegue en AWS}
 El despliegue se realiza sobre \textbf{una instancia EC2} con \textbf{IP el\'astica},
@@ -831,11 +854,11 @@ administrada mediante \textbf{EC2 Instance Connect} (sin gesti\'on de llaves SSH
 script de \emph{User Data} instala Docker, clona los repositorios y ejecuta
 \texttt{docker compose up -d --build}.
 
-\evidencia{Instancia EC2 (\texttt{FinZen App}) en estado \emph{Running} con IP el\'astica \texttt{54.198.140.159}.}{capturas_aws/aws_01_instancia.png}
-\evidencia{Security Group con las reglas de entrada \texttt{22} (SSH) y \texttt{80} (HTTP).}{capturas_aws/aws_02_security_group.png}
-\evidencia{Contenedores en ejecuci\'on (\texttt{docker compose ps} y \texttt{docker ps}) y prueba de las APIs v\'ia Nginx.}{capturas_aws/aws_03_contenedores.png}
-\evidencia{Aplicaci\'on funcionando por la IP el\'astica (\texttt{http://54.198.140.159}).}{capturas_aws/aws_04_app.png}
-\evidencia{Liberaci\'on del puerto \texttt{80}: Apache detenido y deshabilitado en la EC2.}{capturas_aws/aws_05_apache.png}
+\evidencia{Consola de AWS (regi\'on \texttt{us-east-1}) con la instancia \texttt{FinZen App} en estado \emph{Running}, tipo \texttt{t3.micro} y su IP el\'astica \texttt{54.198.140.159}.}{capturas_aws/aws_01_instancia.png}
+\evidencia{Reglas de \emph{entrada} del Security Group: \texttt{22} (SSH) y \texttt{80} (HTTP), ambas desde \texttt{0.0.0.0/0}.}{capturas_aws/aws_02_security_group.png}
+\evidencia{Terminal de la EC2: \texttt{docker compose ps} y \texttt{docker ps} muestran los 6 contenedores en ejecuci\'on, y las pruebas con \texttt{curl} devuelven \texttt{200}.}{capturas_aws/aws_03_contenedores.png}
+\evidencia{Navegador accediendo a la aplicaci\'on en \texttt{http://54.198.140.159}: panel de control del usuario autenticado.}{capturas_aws/aws_04_app.png}
+\evidencia{Liberaci\'on del puerto \texttt{80} en la EC2: Apache detenido y deshabilitado para que Nginx pueda arrancar.}{capturas_aws/aws_05_apache.png}
 
 \section{Repositorios p\'ublicos de GitHub}
 \begin{itemize}[leftmargin=1.2cm]
@@ -865,14 +888,6 @@ despliegue mediante CI/CD.
   \item Documentaci\'on de AWS EC2 y calculadora de costos (\url{https://calculator.aws}).
   \item Documentaci\'on de OpenAI (modelos de embeddings y de chat).
   \item Documentaci\'on de Next.js (App Router).
-\end{itemize}
-
-\section*{Anexos}
-\addcontentsline{toc}{section}{Anexos}
-\begin{itemize}[leftmargin=1.2cm]
-  \item Anexo A: prompt del prototipo (\texttt{frontend-prompt/prompt.md}).
-  \item Anexo B: colecci\'on Postman y entornos (\texttt{finzen-docs/postman/}).
-  \item Anexo C: cat\'alogo completo de APIs (\texttt{CATALOGO\_DE\_APIS.md}).
 \end{itemize}
 
 \end{document}
