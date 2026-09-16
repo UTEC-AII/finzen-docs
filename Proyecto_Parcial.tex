@@ -206,13 +206,22 @@ b\'usqueda sem\'antica basado en \emph{embeddings}.
 \caption{Cuadro comparativo del benchmark (competidores y FinZen).}
 \end{table}
 
-Del an\'alisis comparativo se observa que los competidores coinciden en dos ejes: la
-\textbf{simplicidad de uso} (PocketGuard) y la \textbf{automatizaci\'on con IA}
-(Copilot Money, Monarch Money y YNAB). Todos ellos dependen, en mayor o menor medida,
-de \textbf{vincular cuentas bancarias}. FinZen adopta la interacci\'on en lenguaje
-natural de Copilot Money y Monarch Money, pero elimina esa dependencia: el usuario
-registra sus movimientos de forma manual y consulta al asistente sobre ellos, sin
-compartir credenciales bancarias.
+\textbf{Lectura del benchmark.} El mercado converge en dos ejes: la
+\textbf{simplicidad} (PocketGuard) y la \textbf{automatizaci\'on con IA} (Copilot Money,
+Monarch Money y YNAB). Sin embargo, todos comparten tres limitaciones que dejan un
+espacio sin cubrir:
+\begin{itemize}[leftmargin=1.2cm]
+  \item \textbf{Dependen de vincular cuentas bancarias:} sin esa conexi\'on su IA no
+        funciona, y muchos usuarios no quieren compartir sus credenciales.
+  \item \textbf{Explican poco:} ofrecen cifras (cu\'anto se puede gastar o cu\'anto se
+        gast\'o), pero no responden preguntas abiertas en lenguaje natural.
+  \item \textbf{Asumen una sola moneda y un solo pa\'is:} no est\'an pensadas para
+        usuarios que mueven dinero en varias monedas, algo frecuente en Latinoam\'erica.
+\end{itemize}
+
+\textbf{Oportunidad para FinZen.} Esa combinaci\'on ---lenguaje natural, sin vincular
+cuentas y multi-moneda--- es precisamente el espacio sin cubrir. El benchmark no solo
+valida la idea: muestra \emph{d\'onde} est\'a el diferenciador.
 
 \section{Alcance funcional de FinZen (100\% digital)}
 
@@ -248,13 +257,32 @@ HU8 & Dashboard con resumen financiero & Alta & 3 & HU2, HU3, HU7 & Semana 3--4 
 
 \section{Propuesta de valor}
 
-A diferencia de PocketGuard, cuyo an\'alisis se limita a estimar el gasto disponible
-del d\'ia, y de Copilot Money y Monarch Money, que condicionan el funcionamiento de
-su asistente a la vinculaci\'on de cuentas bancarias, \textbf{FinZen} propone un
-modelo de menor fricci\'on: el usuario registra sus movimientos de forma manual y
-formula consultas en lenguaje natural, resueltas mediante recuperaci\'on sem\'antica
-con \emph{embeddings} (\texttt{text-embedding-3-large}). Esta propuesta no depende de
-integraciones bancarias ni de categorizaci\'on manual.
+\textbf{El problema.} Entender las finanzas personales sigue siendo tedioso: las
+aplicaciones l\'ideres exigen vincular cuentas bancarias, adoptar un m\'etodo de
+presupuesto o interpretar gr\'aficos. Para quien maneja varias monedas, ninguna
+responde a la pregunta m\'as simple: \emph{«¿en qu\'e se me va el dinero?»}.
+
+\textbf{La propuesta.} FinZen convierte los movimientos del usuario en
+\textbf{respuestas claras y conversacionales, en espa\~nol y en lenguaje natural}. El
+usuario registra sus ingresos y gastos (en cualquier moneda) y le pregunta al
+asistente; este responde con base en \textbf{sus propios datos}, citando los movimientos
+que sustentan la respuesta.
+
+\textbf{Diferenciadores frente a la competencia:}
+\begin{itemize}[leftmargin=1.2cm]
+  \item \textbf{Sin fricci\'on y sin riesgo:} no vincula cuentas bancarias ni solicita
+        credenciales.
+  \item \textbf{IA que responde, no que solo grafica:} recuperaci\'on sem\'antica
+        (\texttt{text-embedding-3-large}) y generaci\'on aumentada (RAG) con citas y
+        \emph{guardrails} anti-alucinaci\'on.
+  \item \textbf{Pensada para Latinoam\'erica:} multi-moneda (PEN, USD, \dots) y zona
+        horaria configurable.
+  \item \textbf{Costo casi nulo:} el consumo de IA ronda $\sim$\$0.04 al mes para el
+        volumen del proyecto.
+\end{itemize}
+
+\textbf{En una frase:} FinZen es \emph{``preg\'untale a tus finanzas''}: la forma m\'as
+r\'apida de entender tu dinero, sin compartir tus cuentas.
 
 \section{Historias de Usuario y criterios de aceptaci\'on (Gherkin/BDD)}
 
