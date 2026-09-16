@@ -173,7 +173,6 @@ soluci\'on se despliega sobre \textbf{una instancia EC2 en AWS} (regi\'on
 
 % ============================================================
 \part*{Parte A: An\'alisis (QU\'E)}
-\addcontentsline{toc}{section}{Parte A: An\'alisis (QU\'E)}
 
 \section{Empresa y producto propuesto}
 \begin{itemize}[leftmargin=1.2cm]
@@ -397,7 +396,6 @@ una visi\'on general de mi balance y gastos.
 
 % ============================================================
 \part*{Parte B: Dise\~no del MVP (C\'OMO)}
-\addcontentsline{toc}{section}{Parte B: Dise\~no del MVP (C\'OMO)}
 
 \section{Dise\~no de FrontEnd (Prototipo) --- Next.js}
 
@@ -466,7 +464,7 @@ Las columnas van en ingl\'es y los montos se guardan como \texttt{Numeric(12,2)}
 \begin{lstlisting}[caption={Esquema de las bases de datos (DBML --- dbdiagram.io).},captionpos=b]
 // FinZen - Esquema de base de datos (DBML para dbdiagram.io)
 // 4 microservicios, cada uno con su propia base SQLite.
-// Las referencias son "logicas" (no hay FK fisica entre bases distintas).
+// Las referencias son "lógicas" (no hay FK física entre bases distintas).
 
 Table users {
   id varchar [pk]
@@ -540,7 +538,7 @@ Table settings {
   Note: 'ai-service - vectors.db (clave de OpenAI, etc.)'
 }
 
-// Relaciones logicas (FK por user_id entre microservicios)
+// Relaciones lógicas (FK por user_id entre microservicios)
 Ref: incomes.user_id > users.id
 Ref: expenses.user_id > users.id
 Ref: vectorized_transactions.user_id > users.id
@@ -733,7 +731,6 @@ entrada ($\approx$90\% menor en tokens repetidos).
 
 % ============================================================
 \part*{Parte C: Implementaci\'on del MVP}
-\addcontentsline{toc}{section}{Parte C: Implementaci\'on del MVP}
 
 \section{Cat\'alogo de APIs}
 Todos los servicios exponen respuestas en formato JSON y documentan su interfaz mediante OpenAPI/Swagger (\texttt{/docs}).
