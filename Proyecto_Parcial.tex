@@ -275,7 +275,7 @@ con correo y contrase\~na, \textbf{para} acceder de forma segura a mi informaci\
   \item \textbf{GIVEN} contrase\~na incorrecta, \textbf{WHEN} presiona ``Entrar'',
         \textbf{THEN} se muestra un error gen\'erico (sin revelar si el correo existe).
 \end{itemize}
-\textbf{Tareas t\'ecnicas:} FrontEnd \texttt{/register} y \texttt{/login}; BackEnd
+\textbf{Tareas t\'ecnicas:} Frontend \texttt{/register} y \texttt{/login}; Backend
 \texttt{POST /users} (hash bcrypt) y \texttt{POST /auth/login} (JWT); tabla
 \texttt{users} en \texttt{users.db}.
 
@@ -397,9 +397,9 @@ una visi\'on general de mi balance y gastos.
 % ============================================================
 \part*{Parte B: Dise\~no del MVP (C\'OMO)}
 
-\section{Dise\~no de FrontEnd (Prototipo) --- Next.js}
+\section{Dise\~no de Frontend (Prototipo) --- Next.js}
 
-El FrontEnd se construye en \textbf{Next.js (App Router) + TypeScript + Tailwind
+El Frontend se construye en \textbf{Next.js (App Router) + TypeScript + Tailwind
 CSS} y corre como un \textbf{contenedor Docker} sobre la misma instancia EC2,
 consumiendo los microservicios. A partir de las 8 historias se definieron estas
 rutas:
@@ -429,9 +429,9 @@ rutas:
 El prototipo responsivo (\texttt{FinZen\_mockup.html}) y el prompt usado en
 herramientas de IA est\'an en \texttt{frontend-prompt/} del repositorio del frontend.
 
-\section{Dise\~no de BackEnd --- FastAPI en contenedores Docker}
+\section{Dise\~no de Backend --- FastAPI en contenedores Docker}
 
-El BackEnd se implementa con \textbf{FastAPI}, como \textbf{4 contenedores Docker
+El Backend se implementa con \textbf{FastAPI}, como \textbf{4 contenedores Docker
 independientes} orquestados mediante \textbf{Docker Compose}. Cada contenedor sigue el
 principio de responsabilidad \'unica y mantiene su propia base de datos
 \textbf{SQLite} persistida en un volumen.
@@ -453,7 +453,7 @@ principio de responsabilidad \'unica y mantiene su propia base de datos
 \end{table}
 
 Un contenedor \textbf{Nginx} (en el mismo \texttt{docker-compose.yml}) act\'ua como
-reverse proxy: expone el FrontEnd en \texttt{/} y enruta \texttt{/api/users},
+reverse proxy: expone el Frontend en \texttt{/} y enruta \texttt{/api/users},
 \texttt{/api/incomes}, \texttt{/api/expenses} y \texttt{/api/ai} a los puertos
 8001--8004, resolvi\'endolos por el \textbf{nombre del servicio} en la red interna.
 
@@ -562,7 +562,7 @@ cientos o miles de usuarios concurrentes.
 
 \section{Empaquetado con Docker}
 
-Cada microservicio y el FrontEnd se empaquetan como im\'agenes Docker independientes.
+Cada microservicio y el Frontend se empaquetan como im\'agenes Docker independientes.
 Los Dockerfiles parten de im\'agenes base oficiales de \textbf{Docker Hub}
 (\texttt{python:3-slim} y \texttt{node:20-alpine}).
 
@@ -767,7 +767,7 @@ requieren \texttt{Authorization: Bearer <token>}.
 \end{longtable}
 \endgroup
 
-\section{Implementaci\'on del BackEnd}
+\section{Implementaci\'on del Backend}
 El backend se compone de 4 microservicios en Python (FastAPI), cada uno empaquetado
 como contenedor Docker con su propia base SQLite persistida en un volumen y
 orquestados mediante Docker Compose. Los endpoints protegidos emplean JWT. Cada
@@ -814,7 +814,7 @@ asistente y la reindexaci\'on), con sus c\'odigos de estado reales.
 \evidencia{Consulta al asistente 3: ``¿cu\'anto he recibido de ingresos?'' con el total de ingresos.}{capturas_postman/09_consulta_ia_3.png}
 \evidencia{Re-indexaci\'on de movimientos: \texttt{POST /api/ai/reindex} regenera los vectores con el modelo de \emph{embeddings}.}{capturas_postman/10_re_indexar_movimientos.png}
 
-\section{FrontEnd conectado (BFF + JWT)}
+\section{Frontend conectado (BFF + JWT)}
 El frontend Next.js consume las APIs a trav\'es de un \textbf{BFF}: el JWT se guarda
 en una cookie \texttt{httpOnly} y el servidor de Next lo inyecta al reenviar la
 petici\'on a Nginx.
@@ -865,7 +865,6 @@ despliegue mediante CI/CD.
   \item Documentaci\'on de Next.js (App Router).
 \end{itemize}
 
-\clearpage
 \section*{Anexos}
 \addcontentsline{toc}{section}{Anexos}
 Los recursos complementarios del proyecto se encuentran en el repositorio de
