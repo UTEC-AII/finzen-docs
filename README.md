@@ -13,7 +13,7 @@ Postman, el catálogo de APIs y el material del prototipo.
 | Ruta | Descripción |
 |---|---|
 | `Proyecto_Parcial.tex` | Informe fuente (LaTeX). |
-| `Proyecto_Parcial.pdf` | Informe compilado (34 páginas). |
+| `Proyecto_Parcial.pdf` | Informe compilado (38 páginas). |
 | `figures/` | Imágenes: logo UTEC, diagramas y capturas de evidencia. |
 | `figures/capturas_postman/` | Evidencia de las peticiones a la API (Postman/Newman). |
 | `figures/capturas_frontend/` | Evidencia del frontend (dashboard, gastos, asistente). |
@@ -35,6 +35,23 @@ pdflatex Proyecto_Parcial.tex   # segunda pasada para el índice
 ```
 
 Las imágenes se resuelven desde `figures/` mediante `\graphicspath`.
+
+## Puesta en marcha (resumen)
+
+El proyecto se compone de **tres repositorios**. Para ejecutarlo de extremo a extremo:
+
+1. **Backend** ([finzen-app](https://github.com/UTEC-AII/finzen-app)): clonar, configurar
+   el archivo `.env` y levantar los microservicios con `docker compose up -d --build`.
+2. **Frontend** ([finzen-webui](https://github.com/UTEC-AII/finzen-webui)): clonar,
+   construir la imagen y ejecutarla conectada a la red del backend.
+3. **Abrir** la aplicación en `http://localhost` (servida por Nginx).
+
+Cada repositorio incluye su guía detallada:
+
+| Repositorio | Guía local | Guía AWS |
+|---|---|---|
+| Backend | [Inicio rápido](https://github.com/UTEC-AII/finzen-app#inicio-rápido-local-con-docker) | [Despliegue en AWS](https://github.com/UTEC-AII/finzen-app#despliegue-en-aws-ec2) |
+| Frontend | [Ejecutar con Docker](https://github.com/UTEC-AII/finzen-webui#ejecutar-con-docker) | [Despliegue en AWS](https://github.com/UTEC-AII/finzen-webui#despliegue-en-aws-ec2) |
 
 ## Repositorios relacionados
 
