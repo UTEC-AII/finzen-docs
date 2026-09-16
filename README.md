@@ -17,6 +17,8 @@ Postman, el catálogo de APIs y el material del prototipo.
 | `figures/` | Imágenes: logo UTEC, diagramas y capturas de evidencia. |
 | `figures/capturas_postman/` | Evidencia de las peticiones a la API (Postman/Newman). |
 | `figures/capturas_frontend/` | Evidencia del frontend (dashboard, gastos, asistente). |
+| `figures/capturas_aws/` | Evidencia del despliegue en AWS (EC2, Security Group, contenedores, app). |
+| `figures/capturas_openai/` | Creación y configuración de la clave de OpenAI. |
 | `postman/` | Colección de Postman, entornos y evidencia de las peticiones. |
 | `CATALOGO_DE_APIS.md` | Catálogo completo de los endpoints. |
 | `frontend-prompt/` | Prompt y mockup del prototipo del frontend. |
