@@ -505,7 +505,7 @@ decisi\'on responde a tres razones: (i) \textbf{autonom\'ia del servicio} (cada 
 solo su propio contexto de negocio), (ii) \textbf{desacoplamiento} (modificar el esquema de
 gastos no afecta a usuarios ni a ingresos) y (iii) \textbf{aislamiento de fallos} (un error de
 datos en un servicio no corrompe a los dem\'as). Las referencias entre tablas de distintos
-servicios son \textbf{l\'ogicas} \u2014por \texttt{user\_id}\u2014 y no existen foreign keys f\'isicas
+servicios son \textbf{l\'ogicas} ---por \texttt{user\_id}--- y no existen foreign keys f\'isicas
 entre bases distintas.
 
 Sobre el almacenamiento: cada base es un archivo \texttt{.db} en \texttt{/app/data} dentro
@@ -915,7 +915,7 @@ de swap de 2 GB: \texttt{sudo fallocate -l 2G /swapfile}, \texttt{sudo mkswap /s
 y \texttt{sudo swapon /swapfile} (registrado en \texttt{/etc/fstab}). Con ello la instancia
 dispone de~{}2.5 GB de intercambio y la imagen del Frontend se compil\'o con \'exito.
 En una instancia \texttt{t3.small} (2 GB de RAM) este problema no se presentar\'ia; con
-\texttt{t3.micro}, el swap act\'ua como red de seguridad \u2014no reemplaza la RAM (es de
+\texttt{t3.micro}, el swap act\'ua como red de seguridad ---no reemplaza la RAM (es de
 disco, por tanto m\'as lento) pero evita que el kernel aborte el proceso de compilaci\'on.
 
 \section{Repositorios p\'ublicos de GitHub}
