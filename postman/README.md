@@ -6,7 +6,7 @@ Evidencia de uso de las APIs (Parte C del Proyecto Parcial).
 
 - `FinZen.postman_collection.json` — todas las peticiones de los 4 microservicios.
 - `FinZen-Local.postman_environment.json` — `baseUrl = http://localhost`.
-- `FinZen-AWS.postman_environment.json` — `baseUrl = http://<TU-IP-ELASTICA>`.
+- `FinZen-AWS.postman_environment.json` — `baseUrl = http://54.198.140.159` (IP elástica del despliegue).
 
 ## Importar
 
@@ -30,7 +30,7 @@ Evidencia de uso de las APIs (Parte C del Proyecto Parcial).
 ```bash
 npm install -g newman newman-reporter-htmlextra
 newman run postman/FinZen.postman_collection.json \
-  -e postman/FinZen-Local.postman_environment.json \
+  -e postman/FinZen-AWS.postman_environment.json \
   --delay-request 2500 \
   --reporters cli,htmlextra \
   --reporter-htmlextra-export newman-report.html

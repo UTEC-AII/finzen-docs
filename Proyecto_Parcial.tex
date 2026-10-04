@@ -232,6 +232,13 @@ valida la idea: muestra \emph{d\'onde} est\'a el diferenciador.
   \item Estudiantes o j\'ovenes con mesada o ingresos ocasionales.
 \end{itemize}
 
+El MVP comprende las 8 historias de usuario priorizadas (HU1--HU8), que suman 22 story
+points distribuidos en dos sprints cortos. Esta selecci\'on se justifica por negocio: el
+usuario final requiere, como ciclo completo, identificarse (HU1), registrar sus ingresos
+(HU2) y gastos (HU3), consultar el detalle de ambos (HU4, HU5), ajustar su perfil
+(HU6) y, sobre sus propios movimientos, contar con un panel de resumen financiero
+(HU8) alimentado por un asistente de consulta inteligente (HU7).
+
 \textbf{Funcionalidades (Historias de Usuario) --- backlog priorizado:}
 
 \begin{table}[H]
@@ -485,7 +492,36 @@ reverse proxy: expone el Frontend en \texttt{/} y enruta \texttt{/api/users},
 \texttt{/api/incomes}, \texttt{/api/expenses} y \texttt{/api/ai} a los puertos
 8001--8004, resolvi\'endolos por el \textbf{nombre del servicio} en la red interna.
 
+En lugar de conectar el Frontend directamente a cada microservicio, se centraliza todo tras
+\textbf{Nginx} por tres razones: el navegador solo necesita conocer \textbf{una URL y un
+puerto} (\texttt{80}); los puertos de los microservicios (\texttt{8001}--\texttt{8004} y
+\texttt{3000}) quedan protegidos en la red interna de Docker y no se exponen al exterior; y
+el enrutado por ruta (\texttt{/api/...}) se hace contra los nombres internos de los
+servicios, sin IP ni puertos extra expuestos.
+
 \subsection{Estructura de la base de datos (SQL --- SQLite)}
+Cada microservicio posee su propia base SQLite y no comparte tablas con los dem\'as. Esta
+decisi\'on responde a tres razones: (i) \textbf{autonom\'ia del servicio} (cada uno persiste
+solo su propio contexto de negocio), (ii) \textbf{desacoplamiento} (modificar el esquema de
+gastos no afecta a usuarios ni a ingresos) y (iii) \textbf{aislamiento de fallos} (un error de
+datos en un servicio no corrompe a los dem\'as). Las referencias entre tablas de distintos
+servicios son \textbf{l\'ogicas} \u2014por \texttt{user\_id}\u2014 y no existen foreign keys f\'isicas
+entre bases distintas.
+
+Sobre el almacenamiento: cada base es un archivo \texttt{.db} en \texttt{/app/data} dentro
+del contenedor y se persiste en un \textbf{volumen nombrado} de Docker
+(\texttt{users\_data}, \texttt{incomes\_data}, \texttt{expenses\_data}, \texttt{vectors\_data}).
+Esos vol\'umenes residen sobre el volumen \textbf{EBS (gp3)} de la instancia, de modo que
+los datos sobreviven a un reinicio o a la recreaci\'on del contenedor.
+
+\begin{itemize}[leftmargin=1.2cm]
+  \item \textbf{user-service}: \texttt{users.db} (volumen \texttt{users\_data}): tabla \texttt{users} con id, name, email, password\_hash, preferred\_currency, timezone, monthly\_savings\_goal, created\_at.
+  \item \textbf{income-service}: \texttt{incomes.db} (volumen \texttt{incomes\_data}): tabla \texttt{incomes} con id, user\_id, type, amount, currency, date, description, created\_at.
+  \item \textbf{expense-service}: \texttt{expenses.db} (volumen \texttt{expenses\_data}): tabla \texttt{expenses} con id, user\_id, category, amount, currency, date, description, created\_at.
+  \item \textbf{ai-service}: \texttt{vectors.db} (volumen \texttt{vectors\_data}): tablas \texttt{vectorized\_transactions} (id, user\_id, record\_type, category, currency, amount, date, text, embedding, embedding\_model, created\_at) y \texttt{settings} (key, value).
+\end{itemize}
+
+
 Las columnas van en ingl\'es y los montos se guardan como \texttt{Numeric(12,2)}
 (Decimal), no como \texttt{Float}, para no perder precisi\'on financiera.
 
@@ -863,6 +899,19 @@ script de \emph{User Data} instala Docker, clona los repositorios y ejecuta
 \evidencia{Navegador accediendo a la aplicaci\'on en \texttt{http://54.198.140.159}: panel de control del usuario autenticado.}{capturas_aws/aws_04_app.png}
 \evidencia{Liberaci\'on del puerto \texttt{80} en la EC2: Apache detenido y deshabilitado para que Nginx pueda arrancar.}{capturas_aws/aws_05_apache.png}
 
+\subsection{Recursos de la instancia y uso de swap}
+La instancia seleccionada es una \texttt{t3.micro} (1 vCPU, 1 GB de RAM). Al ejecutar
+\texttt{docker compose up -d --build}, la compilaci\'on del Frontend (\emph{next build})
+requiere m\'as memoria de la disponible en RAM, por lo que el sistema depende de su
+intercambio (\emph{swap}) inicial de~{}488 MB, el cual se satura y la compilaci\'on
+``cuelga'' (el proceso acaba siendo eliminado). Para estabilizarlo se agreg\'o un volumen
+de swap de 2 GB: \texttt{sudo fallocate -l 2G /swapfile}, \texttt{sudo mkswap /swapfile}
+y \texttt{sudo swapon /swapfile} (registrado en \texttt{/etc/fstab}). Con ello la instancia
+dispone de~{}2.5 GB de intercambio y la imagen del Frontend se compil\'o con \'exito.
+En una instancia \texttt{t3.small} (2 GB de RAM) este problema no se presentar\'ia; con
+\texttt{t3.micro}, el swap act\'ua como red de seguridad \u2014no reemplaza la RAM (es de
+disco, por tanto m\'as lento) pero evita que el kernel aborte el proceso de compilaci\'on.
+
 \section{Repositorios p\'ublicos de GitHub}
 \begin{itemize}[leftmargin=1.2cm]
   \item Backend: \url{https://github.com/UTEC-AII/finzen-app}
@@ -871,17 +920,30 @@ script de \emph{User Data} instala Docker, clona los repositorios y ejecuta
 \end{itemize}
 
 % ===================== CIERRE =====================
-\section{Conclusiones y trabajo futuro}
+\section{Conclusiones}
 FinZen satisface el alcance del MVP propuesto: registro seguro de usuarios, captura
 de ingresos y gastos, listados y panel de control, y un asistente basado en RAG que
 responde sobre los datos del propio usuario. Se aplicaron pr\'acticas de contenedores
 (im\'agenes livianas, usuario no privilegiado, \emph{healthchecks} y vol\'umenes) y de
 seguridad (JWT, bcrypt y CORS restringido).
 
-\textbf{Trabajo futuro:} escalar horizontalmente mediante \textbf{Application Load
-Balancer y Auto Scaling}, migrar a \textbf{PostgreSQL en RDS}, incorporar
-\textbf{reranking} y \texttt{sqlite-vec} en el pipeline de RAG, y automatizar el
-despliegue mediante CI/CD.
+\subsection{Trabajos Futuros}
+Aunque las 8 historias del MVP est\'an liberadas, existen mejoras motivadas por
+escalabilidad o por la evoluci\'on del negocio:
+
+\begin{itemize}[leftmargin=1.2cm]
+  \item \textbf{Escalabilidad horizontal}: ante cientos o miles de usuarios concurrentes, pasar a
+        \textbf{Application Load Balancer y Auto Scaling} sobre varias instancias y delegar la
+        sesi\'on en un almac\'en de sesiones distribuido.
+  \item \textbf{Motor de datos}: migrar de SQLite a \textbf{PostgreSQL en Amazon RDS} cuando los
+        vol\'umenes de movimientos superen el rendimiento de un archivo \texttt{.db} y sea
+        necesario compartir el estado entre servidores.
+  \item \textbf{Automatizaci\'on del despliegue}: pasar de \emph{user data} manual a un pipeline de
+        CI/CD que construya las im\'agenes, las publique y actualice los servicios sin intervenci\'on
+        manual.
+  \item \textbf{Evoluci\'on del asistente}: incorporar \emph{reranking} y \texttt{sqlite-vec} en el
+        pipeline de RAG para mejorar la recuperaci\'on y la precisi\'on de las respuestas.
+\end{itemize}
 
 \section*{Referencias}
 \addcontentsline{toc}{section}{Referencias}
