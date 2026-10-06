@@ -285,7 +285,7 @@ que sustentan la respuesta.
         \emph{guardrails} anti-alucinaci\'on.
   \item \textbf{Pensada para Latinoam\'erica:} multi-moneda (PEN, USD, \dots) y zona
         horaria configurable.
-  \item \textbf{Costo casi nulo:} el consumo de IA ronda $\sim$\$0.04 al mes para el
+  \item \textbf{Costo casi nulo:} el consumo de IA ronda $\approx$\$0.04 al mes para el
         volumen del proyecto.
 \end{itemize}
 
@@ -735,20 +735,20 @@ instancia EC2:
 \midrule
 EC2 & 1x t3.micro on-demand, Linux, 24/7 & \$7.59 \\
 EBS & gp3, 20 GB (im\'agenes Docker, SQLite y c\'odigo) & \$1.60 \\
-IP el\'astica (IPv4) & 1 direcci\'on el\'astica ($\sim$\$0.005/h, se cobre o no) & \$3.65 \\
-Transferencia de datos & $\sim$5 GB/mes & \$0.45 \\
+IP el\'astica (IPv4) & 1 direcci\'on el\'astica ($\approx$\$0.005/h, se cobre o no) & \$3.65 \\
+Transferencia de datos & $\approx$5 GB/mes & \$0.45 \\
 \midrule
-\textbf{TOTAL AWS (estimado)} & & \textbf{$\sim$\$13.29 / mes} \\
+\textbf{TOTAL AWS (estimado)} & & \textbf{$\approx$\$13.29 / mes} \\
 \bottomrule
 \end{tabular}
 \caption{Costos mensuales estimados.}
 \end{table}
 
 \textbf{Consideraci\'on de costos:} desde febrero de 2024, AWS factura \textbf{toda
-direcci\'on IPv4 p\'ublica} ($\sim$\$0.005 por hora), con independencia de que est\'e
+direcci\'on IPv4 p\'ublica} ($\approx$\$0.005 por hora), con independencia de que est\'e
 asociada o no a una instancia; en consecuencia, la \textbf{IP el\'astica} representa
-$\sim$\$3.65/mes. No obstante, al operar con una \'unica instancia se evita el costo
-de un Application Load Balancer ($\sim$\$16/mes) y de una segunda instancia EC2.
+$\approx$\$3.65/mes. No obstante, al operar con una \'unica instancia se evita el costo
+de un Application Load Balancer ($\approx$\$16/mes) y de una segunda instancia EC2.
 
 El consumo de la API de OpenAI (embeddings y modelo de chat) se factura de forma
 independiente, fuera de AWS.
